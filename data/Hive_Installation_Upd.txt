@@ -1,0 +1,123 @@
+Hive Installation
+-----------------
+
+
+1. Download Hive software(apache-hive-2.0.1-bin.tar.gz) from apache
+Link: https://archive.apache.org/dist/hive/hive-2.0.1/
+
+2. Move the file to /usr/local/software and extract it. Move the extracted file to /usr/local/hadoop-ecosystems and rename it as hive-2.0.1-bin
+
+3. Goto /usr/local/hadoop-ecosystems/hive-2.0.1-bin/conf and Copy paste hive-default.xml.template file
+and rename the new file as hive-default.xml
+
+4.Edit ~/.bashrc file and add HIVE configurations.
+
+export HIVE_HOME=/usr/local/hadoop-ecosystem/hive-2.0.1-bin
+export PATH=$PATH:$HIVE_HOME/bin:$HIVE_HOME/sbin
+
+5. Open /usr/local/hadoop-ecosystems/hive-2.0.1-bin/conf/hive-site.xml and remove all the tags and replace it with the below xml information.
+
+
+<configuration>
+ <property>
+ <name>javax.jdo.option.ConnectionURL</name>
+ <value>jdbc:mysql://localhost:3306/metastore?createDatabaseIfNotExist=true&amp;useSSL=false</value>
+ <description>Metadata will be stored in MYSql server</description>
+ </property>
+
+ <property>
+ <name>javax.jdo.option.ConnectionDriverName</name>
+ <value>com.mysql.jdbc.Driver</value>
+ <description>MySql JDBC Driver class</description>
+ </property>
+
+ <property>
+ <name>javax.jdo.option.ConnectionUserName</name>
+ <value>root</value>
+ <description>Username for connecting to MYSql database</description>
+ </property>
+
+ <property>
+ <name>javax.jdo.option.ConnectionPassword</name>
+ <value>root</value>
+ <description>Password for connecting to MYSql database</description>
+ </property>
+ 
+ <property>
+ <name>hive.server2.enable.doAs</name>
+ <value>false</value> 
+ </property>
+
+</configuration>
+
+
+
+6. Install mysql.
+
+hadoopapache@Hadoop-Dev:~$ sudo apt-get update
+hadoopapache@Hadoop-Dev:~$ sudo apt-get install mysql-server
+
+Enter the password as root when it prompts to enter a password.
+
+
+7. Login to mysql and check the available default databases.
+
+hadoopapache@Hadoop-Dev:~$ sudo mysql -uroot -proot
+mysql> show databases;
+
+
+8. Install Mysql connector.
+
+$sudo apt-get install libmysql-java
+
+
+9. Create a softlink for connector in Hive lib directory.
+$sudo ln -s /usr/share/java/mysql-connector-java.jar $HIVE_HOME/lib/my-sql-connector-java.jar
+
+
+9.1. alter the user in mysql
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+
+
+10.Goto /usr/local/hadoop-ecosystems/hive-2.0.1-bin/bin and execute the below command
+
+hadoopapache@Hadoop-Dev:/usr/local/hadoop-ecosystems/hive-2.0.1-bin/bin$./schematool -initSchema -dbType mysql
+
+11. $start-all.sh
+
+12. $hive (enter). This will take us to the hive prompt.
+
+
+Hive Version > 3.1
+
+Remove old guava-jre.jar file in $HIVE_HOME/lib
+
+#cp /usr/local/hadoop-ecosystem/hadoop-3.2.1/share/hadoop/common/lib/guava-27.0-jre.jar $HIVE_HOME/lib
+
+cp /usr/local/hadoop-ecosystem/hadoop-3.1.3/share/hadoop/common/lib/guava-27.0-jre.jar $HIVE_HOME/lib
+
+
+$HOME_HADOOP/etc/hadoop/conf/mapred-site.xml - Add this configuration
+
+<property>
+<name>yarn.app.mapreduce.am.env</name>
+<value>HADOOP_MAPRED_HOME=$HADOOP_HOME</value>
+</property>
+<property>
+<name>mapreduce.map.env</name>
+<value>HADOOP_MAPRED_HOME=$HADOOP_HOME</value>
+</property>
+<property>
+<name>mapreduce.reduce.env</name>
+<value>HADOOP_MAPRED_HOME=$HADOOP_HOME</value>
+</property>
+ 
+ 
+</configuration>
+
+
+
+
+
+

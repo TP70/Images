@@ -1,0 +1,37 @@
+﻿Jupyter notebook installation
+
+
+1. sudo apt-get update
+2. sudo apt-get install python3-pip python3-dev
+3. sudo -H pip3 install --upgrade pip
+4. sudo -H pip3 install virtualenv
+5. mkdir ~/jup_proj
+6. cd jup_proj
+7. virtualenv jup_proj_test
+8. source jup_proj_test/bin/activate
+9. In the virtual env jup_proj_test, install jupyter
+pip3 install jupyter
+pip3 install py4j
+10. jupyter notebook  
+
+
+
+
+
+
+.bashrc setup
+
+
+export SPARK_HOME='/usr/local/spark-3.0.1’
+
+
+export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
+
+
+export PYSPARK_DRIVER_PYTHON="jupyter"
+
+
+export PYSPARK_DRIVER_PYTHON_OPTS="notebook"
+
+
+export PYSPARK_PYTHON=python3
