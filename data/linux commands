@@ -1,0 +1,10 @@
+create venv:  python -m venv venv
+To run a specific test : pytest -k "test_name.py"
+
+# @router.get("/languages/")
+# async def get_language(language_ids: List[int] = Query(None), db: Session = Depends(deps.get_db)) -> Any:
+#     response = list()
+#     for language_id in language_ids:
+#         language_name = db.query(Language).filter(Language.id == language_id).first()
+#         response.append(language_name)
+#     return response

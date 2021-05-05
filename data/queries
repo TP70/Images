@@ -1,0 +1,54 @@
+select name_pan_card as supplier_name, name as onboarder_name  from supplier left join onboarders on supplier.onboarder_id=  onboarders.id
+left join product_catalog on supplier.id = product_catalog.id;
+
+-- select name_pan_card as supplier_name, name as onboarder_name  
+-- from supplier 
+-- left join onboarders on supplier.onboarder_id=  onboarders.id
+-- left join product_catalog on supplier.id = product_catalog.id;
+
+
+select name_pan_card, email_id, contact_person, phone_no, catalog_name
+from supplier 
+inner join onboarders on onboarders.id = supplier.onboarder_id
+inner join product_catalog on product_catalog.supplier_id = supplier.id
+where active=true and is_active=true
+
+
+select *
+from product_sku
+left join product_catalog on product_catalog.id = product_sku.id
+where active=true;
+
+select *
+from product_sku
+left join product_catalog on product_catalog.id = product_sku.id
+left join category on category.id = product_sku.id
+left join category_property on category_property.id = product_sku.id;
+
+select email_id, name_pan_card as supplier_name, name as category_name, catalog_name
+from supplier
+left join category on supplier.id = category.id
+left join product_catalog on supplier.id = product_catalog.id
+where catalog_name is not null;
+
+select *
+from product_catalog
+left join product_sku on product_sku.id = product_catalog.id
+left join category on category.id = product_catalog.id;
+
+select 
+	category.id as Category_id, 
+	name as Category_name, 
+	email_id, 
+	name_pan_card as supplier_name, 
+	parent_category_id, 
+	catalog_name
+from category
+left join supplier on category.id = supplier.id
+left join product_catalog on category.id = product_catalog.id;
+
+
+-- select * from category where id = 100;
+--select * from category where id = 1;
+-- select * from category where id = 46;
+select * from category where id = 170;
